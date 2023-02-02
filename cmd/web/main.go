@@ -6,12 +6,13 @@ import (
 	"log"      // display to terminal
 	"net/http" // create a multiplexer and create routes/endpoints
 
-	"ray/hello/handlers" //separate local modules by a space
+	"github.com/sirraymondarzu/hello/handlers" //separate local modules by a space
 )
 
 func main() {
 	//create multiplexer
 	mux := http.NewServeMux()
+	//hello world
 	// create file server
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer)) // if the route does not exist use aternative
