@@ -19,7 +19,7 @@ func main() {
 
 	mux.HandleFunc("/", handlers.Home)
 	mux.HandleFunc("/about", handlers.About)
-	//mux.HandleFunc("/poll", handlers.HandlePoll) // register the handler function
+	mux.HandleFunc("/poll", handlers.HandlePoll) // register the handler function
 
 	log.Println("Server is active on port 4000")
 

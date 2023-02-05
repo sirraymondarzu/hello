@@ -48,6 +48,6 @@ func About(w http.ResponseWriter, r *http.Request) {
 }
 
 // handler
-func GandlePoll(w http.ResponseWriter, r *http.Request) {
+func HandlePoll(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Welcome to my handle poll page"))
 }
