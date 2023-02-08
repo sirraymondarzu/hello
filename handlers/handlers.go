@@ -4,9 +4,10 @@ package handlers
 
 import (
 	"fmt" // display to screen
-	"html/template"
-	"log"      // display to terminal
+	// display to terminal
 	"net/http" // create a multiplexer and create routes/endpoints
+
+	"github.com/sirraymondarzu/hello/helpers"
 	// extract current time formats
 )
 
@@ -22,21 +23,9 @@ func Home(w http.ResponseWriter, r *http.Request) { // signature has a variable 
 		http.NotFound(w, r)
 		return
 	}
+	//new code
 
-	//w.Write([]byte("Welcome to polly."))
-	ts, err := template.ParseFiles("./templates/home.page.tmpl")
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "internal server error", 500)
-		return
-	}
-	err = ts.Execute(w, nil)
-
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "internal sefer error", 500)
-		//no return because we are at the end of the code
-	}
+	helpers.RenderTemplates(w, "./static/html/home.page.tmpl")
 
 }
 
