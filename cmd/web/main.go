@@ -6,15 +6,18 @@ import (
 	"flag"
 	"log"      // display to terminal
 	"net/http" // create a multiplexer and create routes/endpoints
-
-	"github.com/sirraymondarzu/hello/handlers" //separate local modules by a space
 )
+
+// create a new type 
+type application struct{}
 
 func main() {
 	// create a flag for specifing the port number when starting the server
 
 	addr := flag.String("port", ":4000", "HTTP Network address") //if no port assigned // stored as a pointer
 	flag.Parse()                                                 // this should be called only once
+	//create instance of application type
+	app := &application{} // creating app type
 
 	//create multiplexer
 	mux := http.NewServeMux()
@@ -23,9 +26,9 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer)) // if the route does not exist use aternative
 
-	mux.HandleFunc("/", handlers.Home)
-	mux.HandleFunc("/about", handlers.About)
-	mux.HandleFunc("/poll", handlers.HandlePoll) // register the handler function
+	mux.HandleFunc("/", app.Home)
+	mux.HandleFunc("/about", app.About)
+	mux.HandleFunc("/poll", app.HandlePoll) // register the handler function
 
 	log.Printf("Server is active on port %s", *addr)
 

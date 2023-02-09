@@ -1,6 +1,6 @@
 // create a route  for greeting
 // create a handler greeting that will output welcome to my page
-package handlers
+package main
 
 import (
 	"fmt" // display to screen
@@ -12,7 +12,7 @@ import (
 )
 
 // handler function
-func Home(w http.ResponseWriter, r *http.Request) { // signature has a variable and a pointer
+func (app *application) Home(w http.ResponseWriter, r *http.Request) { // signature has a variable and a pointer
 	/*	if r.Method != "POST" {
 		w.Header().Set("ALLOW", "POST")
 		w.WriteHeader(405)
@@ -30,13 +30,13 @@ func Home(w http.ResponseWriter, r *http.Request) { // signature has a variable 
 }
 
 // handler
-func About(w http.ResponseWriter, r *http.Request) {
+func (app *application) About(w http.ResponseWriter, r *http.Request) {
 	poll := "polls"
 	w.Write([]byte(fmt.Sprintf("We do %s", poll)))
 	//w.Write([]byte("Welcome to my about page"))
 }
 
 // handler
-func HandlePoll(w http.ResponseWriter, r *http.Request) {
+func (app *application) HandlePoll(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Welcome to my handle poll page"))
 }
