@@ -8,7 +8,7 @@ import (
 	"net/http" // create a multiplexer and create routes/endpoints
 )
 
-// create a new type 
+// create a new type
 type application struct{}
 
 func main() {
@@ -19,20 +19,17 @@ func main() {
 	//create instance of application type
 	app := &application{} // creating app type
 
-	//create multiplexer
-	mux := http.NewServeMux()
-	//hello world
-	// create file server
-	fileServer := http.FileServer(http.Dir("./static/"))
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer)) // if the route does not exist use aternative
+	// get a rounter
 
-	mux.HandleFunc("/", app.Home)
-	mux.HandleFunc("/about", app.About)
-	mux.HandleFunc("/poll", app.HandlePoll) // register the handler function
+	//create a customized server
+	srv := &http.Server{
+		Addr:    *addr,
+		Handler: app.routes(),
+	}
 
 	log.Printf("Server is active on port %s", *addr)
 
-	err := http.ListenAndServe(*addr, mux) // using the pointer of addr -
+	err := srv.ListenAndServe() // using the pointer of addr -
 	log.Fatal(err)
 
 }
