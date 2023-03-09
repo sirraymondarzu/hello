@@ -1,3 +1,4 @@
+// Filename: cmd/web/routes.go
 package main
 
 import (
@@ -6,17 +7,20 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func (app *application) routes() http.Handler {
-	//create multiplexer
-	mux := httprouter.New()
-	//hello world
-	// create file server
-	fileServer := http.FileServer(http.Dir("./static/"))
-	mux.Handler(http.MethodGet, "/static/*flepath", http.StripPrefix("/static", fileServer)) // if the route does not exist use aternative
+func (app *application) routes() *httprouter.Router {
+	router := httprouter.New()
+	fileServer := http.FileServer(http.Dir("./ui/static/"))
+	// ROUTES: 10
+	router.Handler(http.MethodGet, "/static/*filepath", http.StripPrefix("/static", fileServer))
+	router.HandlerFunc(http.MethodGet, "/", app.home)
+	router.HandlerFunc(http.MethodGet, "/about", app.about)
+	router.HandlerFunc(http.MethodGet, "/poll/reply", app.pollReplyShow)
+	router.HandlerFunc(http.MethodPost, "/poll/reply", app.pollReplySubmit)
+	router.HandlerFunc(http.MethodGet, "/poll/success", app.pollSuccessShow)
+	router.HandlerFunc(http.MethodGet, "/poll/create", app.pollCreateShow)
+	router.HandlerFunc(http.MethodPost, "/poll/create", app.pollCreateSubmit)
+	router.HandlerFunc(http.MethodGet, "/options/create", app.optionsCreateShow)
+	router.HandlerFunc(http.MethodPost, "/options/create", app.optionsCreateSubmit)
 
-	mux.HandlerFunc(http.MethodGet, "/", app.Home)
-	mux.HandlerFunc(http.MethodGet, "/about", app.About)
-	mux.HandlerFunc(http.MethodPost, "/poll", app.HandlePoll) // register the handler function
-
-	return mux
+	return router
 }
